@@ -77,7 +77,7 @@ class Projector:
         self._dlatent_std = (np.sum((dlatent_samples - self._dlatent_avg) ** 2) / self.dlatent_avg_samples) ** 0.5
         self._info('std = %g' % self._dlatent_std)
         
-        print(‘saving dlatent code'）
+        print('saving dlatent code'）
         np.save('dlatent', self._dlatent_avg)
         # Find noise inputs.
         self._info('Setting up noise inputs...')
