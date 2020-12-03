@@ -76,7 +76,9 @@ class Projector:
         self._dlatent_avg = np.mean(dlatent_samples, axis=0, keepdims=True) # [1, 18, 512]
         self._dlatent_std = (np.sum((dlatent_samples - self._dlatent_avg) ** 2) / self.dlatent_avg_samples) ** 0.5
         self._info('std = %g' % self._dlatent_std)
-
+        
+        print(‘saving dlatent code'）
+        np.save('dlatent', self._dlatent_avg)
         # Find noise inputs.
         self._info('Setting up noise inputs...')
         self._noise_vars = []
@@ -103,7 +105,9 @@ class Projector:
         dlatents_noise = tf.random.normal(shape=self._dlatents_var.shape) * self._noise_in
         self._dlatents_expr = self._dlatents_var + dlatents_noise
         self._images_expr = self._Gs.components.synthesis.get_output_for(self._dlatents_expr, randomize_noise=False)
-
+        
+        print(self._dlatents_var.shape)
+            
         # Downsample image to 256x256 if it's larger than that. VGG was built for 224x224 images.
         proc_images_expr = (self._images_expr + 1) * (255 / 2)
         sh = proc_images_expr.shape.as_list()
