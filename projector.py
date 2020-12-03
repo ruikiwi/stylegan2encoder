@@ -17,7 +17,7 @@ class Projector:
     def __init__(self,
         #vgg16_pkl                       = 'https://drive.google.com/uc?id=1N2-m9qszOeVC9Tq77WxsLnuWwOedQiD2',
         vgg16_pkl                       = 'networks/vgg16_zhang_perceptual.pkl',
-        num_steps                       = 1000,
+        num_steps                       = 400,
         initial_learning_rate           = 0.1,
         initial_noise_factor            = 0.05,
         verbose                         = False
@@ -77,7 +77,7 @@ class Projector:
         self._dlatent_std = (np.sum((dlatent_samples - self._dlatent_avg) ** 2) / self.dlatent_avg_samples) ** 0.5
         self._info('std = %g' % self._dlatent_std)
         
-        print('saving dlatent code'）
+        print('saving dlatent code')
         np.save('dlatent', self._dlatent_avg)
         # Find noise inputs.
         self._info('Setting up noise inputs...')
@@ -106,7 +106,7 @@ class Projector:
         self._dlatents_expr = self._dlatents_var + dlatents_noise
         self._images_expr = self._Gs.components.synthesis.get_output_for(self._dlatents_expr, randomize_noise=False)
         
-        print(self._dlatents_var.shape)
+        print('dlatent_var shape', self._dlatents_var.shape)
             
         # Downsample image to 256x256 if it's larger than that. VGG was built for 224x224 images.
         proc_images_expr = (self._images_expr + 1) * (255 / 2)
